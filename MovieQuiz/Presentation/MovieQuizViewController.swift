@@ -1,6 +1,5 @@
 import UIKit
 
-
 final class MovieQuizViewController: UIViewController {
     
     // MARK: - Models
@@ -55,14 +54,11 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - IB Actions
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer)
     }
+    
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = false
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        showAnswerResult(isCorrect: !questions[currentQuestionIndex].correctAnswer)
     }
     
     // MARK: - Private Methods
@@ -90,7 +86,9 @@ final class MovieQuizViewController: UIViewController {
         
         noButton.isEnabled = false
         yesButton.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
             self.imageView.layer.borderWidth = 0
             self.showNextQuestionOrResults()
             self.noButton.isEnabled = true
@@ -129,7 +127,6 @@ final class MovieQuizViewController: UIViewController {
         }
         
         alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
-    
 }
