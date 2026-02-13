@@ -46,14 +46,14 @@
                                         </subviews>
                                     </stackView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1K1-8M-qUE" userLabel="Preview Image">
-                                        <rect key="frame" x="0.0" y="43.666666666666686" width="341.66666666666669" height="512.33333333333326"/>
+                                        <rect key="frame" x="0.0" y="43.666666666666657" width="339" height="508.33333333333337"/>
                                         <color key="backgroundColor" name="YP White"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="1K1-8M-qUE" secondAttribute="height" multiplier="2:3" id="e7S-bf-Hxw"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма меньше, чем 5?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgU-XK-6d2" userLabel="Question Label">
-                                        <rect key="frame" x="0.0" y="576" width="362" height="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма больше чем 7?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgU-XK-6d2" userLabel="Question Label">
+                                        <rect key="frame" x="0.0" y="572" width="362" height="20"/>
                                         <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
                                         <color key="textColor" name="YP White"/>
                                         <nil key="highlightedColor"/>
@@ -102,6 +102,9 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="pdf-Zj-cJ6">
+                                <rect key="frame" x="191" y="427" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
@@ -109,13 +112,16 @@
                             <constraint firstItem="4wG-1t-eIL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="3bv-c4-rfl"/>
                             <constraint firstItem="4wG-1t-eIL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ApT-5D-H0B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="4wG-1t-eIL" secondAttribute="bottom" id="EBQ-4P-veS"/>
+                            <constraint firstItem="pdf-Zj-cJ6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EZJ-nC-SJp"/>
                             <constraint firstItem="hgU-XK-6d2" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="IXd-Ck-fLN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4wG-1t-eIL" secondAttribute="trailing" constant="20" id="My7-bZ-LdW"/>
                             <constraint firstItem="Z3I-cy-hp2" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="TnV-h8-QFa"/>
                             <constraint firstItem="HYt-AZ-YWI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bbr-AA-NpD"/>
+                            <constraint firstItem="pdf-Zj-cJ6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kLm-YP-cEP"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="pdf-Zj-cJ6" id="q65-Bu-myz"/>
                         <outlet property="counterLabel" destination="pgg-QX-omB" id="HFC-Jn-078"/>
                         <outlet property="imageView" destination="1K1-8M-qUE" id="Bcz-b4-5SL"/>
                         <outlet property="noButton" destination="Bqf-kF-dPQ" id="Xgm-GM-ijp"/>
