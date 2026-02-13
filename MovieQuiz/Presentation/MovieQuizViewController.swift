@@ -22,15 +22,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate  
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-        let questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-        self.questionFactory = questionFactory
-        questionFactory.requestNextQuestion()
-        statisticService = StatisticService()
-        showLoadingIndicator()
-        questionFactory.loadData()
-        
-        imageView.layer.cornerRadius = 20
+        setupUI()
+        setupDependencies()
+        loadInitialData()
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -85,18 +79,34 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate  
     private func showNetworkError(message: String) {
         hideLoadingIndicator()
         
-        let model = AlertModel(title: "Ошибка",
-                               message: message,
-                               buttonText: "Попробовать еще раз") { [weak self] in
-            guard let self else { return }
-            
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            self.questionFactory?.requestNextQuestion()
-        }
+        let model = AlertModel(
+            title: "Ошибка",
+            message: message,
+            buttonText: "Попробовать еще раз") { [weak self] in
+                guard let self else { return }
+                
+                self.currentQuestionIndex = 0
+                self.correctAnswers = 0
+                
+                self.questionFactory?.requestNextQuestion()
+            }
         
         alertPresenter.show(in: self, model: model)
+    }
+    
+    private func setupUI() {
+        imageView.layer.cornerRadius = 20
+    }
+
+    private func setupDependencies() {
+        let questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+        self.questionFactory = questionFactory
+        statisticService = StatisticService()
+    }
+
+    private func loadInitialData() {
+        showLoadingIndicator()
+        questionFactory?.loadData()
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -104,7 +114,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate  
             image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
-    } 
+    }
     
     private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
