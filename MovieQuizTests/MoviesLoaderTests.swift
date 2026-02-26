@@ -1,0 +1,54 @@
+//
+//  MoviesLoaderTests.swift
+//  MovieQuiz
+//
+//
+
+import XCTest
+@testable import MovieQuiz
+
+final class MoviesLoaderTests: XCTestCase {
+    func testSuccessLoading() throws {
+        // Given
+        let stubNetworkClientMock = StubNetworkClientMock(emulateError: false)
+        let loader = MoviesLoader(networkClient: stubNetworkClientMock)
+        
+        // When
+        let expectation = expectation(description: "Loading expectation")
+        
+        loader.loadMovies { result in
+            // Then
+            switch result {
+            case .success(let movies):
+                XCTAssertEqual(movies.items.count, 2)
+                expectation.fulfill()
+            case .failure(_):
+                XCTFail("Unexpected failure")
+            }
+        }
+        
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testFailureLoading() throws {
+        // Given
+        let stubNetworkClientMock = StubNetworkClientMock(emulateError: true)
+        let loader = MoviesLoader(networkClient: stubNetworkClientMock)
+        
+        // When
+        let expectation = expectation(description: "Loading expectation")
+    
+        loader.loadMovies { result in
+            // Then
+            switch result {
+            case .failure(let error):
+                XCTAssertNotNil(error)
+                expectation.fulfill()
+            case .success(_):
+                XCTFail("Unexpected failure")
+            }
+        }
+        
+        waitForExpectations(timeout: 1)
+    }
+}

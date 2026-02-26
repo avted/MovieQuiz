@@ -6,10 +6,18 @@
 
 import Foundation
 
-struct NetworkClient {
+protocol NetworkRouting {
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+}
 
+struct NetworkClient: NetworkRouting {
+    
     private enum NetworkError: Error {
         case codeError
+    }
+    
+    private enum HTTPStatusRange {
+        static let success = 200..<300
     }
     
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
@@ -22,7 +30,7 @@ struct NetworkClient {
             }
             
             if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
+               !HTTPStatusRange.success.contains(response.statusCode) {
                 handler(.failure(NetworkError.codeError))
                 return
             }
