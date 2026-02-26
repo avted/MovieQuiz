@@ -9,7 +9,7 @@ import Foundation
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
-    private let statisticService: StatisticServiceProtocol!
+    private let statisticService: StatisticServiceProtocol
     private var currentQuestion: QuizQuestion?
     
     private let questionsAmount: Int = 10
@@ -89,9 +89,9 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     func proceedToNextQuestionOrResults() {
         if self.isLastQuestion() {
             let viewModel = QuizResultsViewModel(
-                title: "Этот раунд окончен!",
-                text: "Ваш результат: \(correctAnswers)\\\(questionsAmount)",
-                buttonText: "Сыграть ещё раз")
+                title: QuizStrings.roundFinishedTitle,
+                text: "\(QuizStrings.currentResult) \(correctAnswers)\\\(questionsAmount)",
+                buttonText: QuizStrings.playAgainButton)
             viewController?.show(quiz: viewModel)
         } else {
             self.switchToNextQuestion()
@@ -104,16 +104,16 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         
         let bestGame = statisticService.bestGame
         
-        let totalPlaysCountLine = "Количество сыгранных квизов: \(statisticService.gamesCount)"
-        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\(questionsAmount)"
-        let bestGameInfoLine = "Рекорд: \(bestGame.correct)\\\(bestGame.total)" + " (\(bestGame.date.dateTimeString))"
-        let averageAccuracyLine = "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%"
+        let totalPlaysCountLine = "\(QuizStrings.totalPlays) \(statisticService.gamesCount)"
+        let currentGameResultLine = "\(QuizStrings.currentResult) \(correctAnswers)\\\(questionsAmount)"
+        let bestGameInfoLine = "\(QuizStrings.bestGame) \(bestGame.correct)\\\(bestGame.total)" + " (\(bestGame.date.dateTimeString))"
+        let averageAccuracyLine = "\(QuizStrings.averageAccuracy) \(String(format: "%.2f", statisticService.totalAccuracy))%"
         
         let resultMessage = [
             currentGameResultLine,
             totalPlaysCountLine,
             bestGameInfoLine,
-            averageAccuracyLine].joined(separator: "\n")
+            averageAccuracyLine].joined(separator: QuizStrings.newline)
         
         return resultMessage
     }

@@ -72,9 +72,9 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         hideLoadingIndicator()
         
         let model = AlertModel(
-            title: "Ошибка",
+            title: QuizStrings.errorMessage,
             message: message,
-            buttonText: "Попробовать еще раз") { [weak self] in
+            buttonText: QuizStrings.tryAgain) { [weak self] in
                 guard let self else { return }
                 self.presenter.restartGame()
             }

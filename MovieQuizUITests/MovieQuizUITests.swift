@@ -27,13 +27,16 @@ final class MovieQuizUITests: XCTestCase {
     }
     
     func testYesButton() {
+        // Given
         sleep(3)
         let firstPoster = app.images["Poster"]
         let firstPosterData = firstPoster.screenshot().pngRepresentation
         
+        // When
         app.buttons["Yes"].tap()
         sleep(3)
         
+        // Then
         let secondPoster = app.images["Poster"]
         let secondPosterData = secondPoster.screenshot().pngRepresentation
         
@@ -43,13 +46,16 @@ final class MovieQuizUITests: XCTestCase {
     }
     
     func testNoButton() {
+        // Given
         sleep(3)
         let firstPoster = app.images["Poster"]
         let firstPosterData = firstPoster.screenshot().pngRepresentation
         
+        // When
         app.buttons["No"].tap()
         sleep(3)
         
+        // Then
         let secondPoster = app.images["Poster"]
         let secondPosterData = secondPoster.screenshot().pngRepresentation
         
@@ -59,22 +65,28 @@ final class MovieQuizUITests: XCTestCase {
     }
     
     func testGameFinish() {
+        // Given
         sleep(3)
+        
+        // When
         for _ in 1...10 {
             app.buttons["No"].tap()
             sleep(2)
         }
         
+        // Then
         let alert = app.alerts["Этот раунд окончен!"]
-        
         sleep(3)
         XCTAssertTrue(alert.exists)
-        XCTAssertTrue(alert.label == "Этот раунд окончен!")
-        XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть ещё раз")
+        XCTAssertEqual(alert.label, "Этот раунд окончен!")
+        XCTAssertEqual(alert.buttons.firstMatch.label, "Сыграть ещё раз")
     }
     
     func testAlertDismiss() {
+        // Given
         sleep(2)
+        
+        // When
         for _ in 1...10 {
             app.buttons["No"].tap()
             sleep(2)
@@ -84,9 +96,10 @@ final class MovieQuizUITests: XCTestCase {
         alert.buttons.firstMatch.tap()
         sleep(2)
         
+        // Then
         let indexLabel = app.staticTexts["Index"]
         XCTAssertFalse(alert.exists)
-        XCTAssertTrue(indexLabel.label == "1/10")
+        XCTAssertEqual(indexLabel.label, "1/10")
     }
     
     @MainActor
@@ -95,5 +108,4 @@ final class MovieQuizUITests: XCTestCase {
         app.launch()
         
     }
-    
 }
